@@ -1,0 +1,7 @@
+package com.educacionit.implementaciones.mariadb;
+
+import com.educacionit.interfaces.DAO;
+
+public class UsuarioImpl implements DAO<E, K>{
+
+}

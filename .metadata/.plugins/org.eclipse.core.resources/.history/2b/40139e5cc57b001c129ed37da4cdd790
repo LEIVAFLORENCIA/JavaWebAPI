@@ -1,0 +1,6 @@
+package com.educacionit.entidades;
+
+public class Usuario {
+	private String correo;
+	private String clave;
+}

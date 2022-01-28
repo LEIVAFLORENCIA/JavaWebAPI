@@ -1,0 +1,15 @@
+package com.educacionit.interfaces;
+
+import java.util.List;
+
+public interface DAO {
+	E buscar();
+	
+	Boolean insertar(E e);
+	
+	Boolean eliminar(E e);
+	
+	Boolean actualizar(E e);
+	
+	List<E> listar();
+}

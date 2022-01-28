@@ -1,0 +1,6 @@
+package com.educacionit.interfaces;
+
+public interface DAO {
+	E buscar();
+	
+}

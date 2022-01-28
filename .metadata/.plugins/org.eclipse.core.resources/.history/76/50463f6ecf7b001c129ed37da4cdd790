@@ -1,0 +1,67 @@
+package com.educacionit.servlets;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.educacionit.entidades.Usuario;
+
+/**
+ * Servlet implementation class Login
+ */
+
+@WebServlet(name = "login", urlPatterns = "/validacion")
+public class Login extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private static List<Usuario> usuarios;
+
+	public Login() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		llenarUsuarios();
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+		String correo = request.getParameter("correo");
+		String clave = request.getParameter("clave");
+	}
+	
+	private Usuario buscar(String correo, String clave) {
+		for (Usuario usuario : usuarios) {
+			if(usuario.getCorreo().equalsIgnoreCase(correo) && usuario.getClave().equals(clave)) {
+				return usuario;
+			}
+			
+		}
+	}
+	
+	private void llenarUsuarios() {
+		usuarios = new ArrayList<Usuario>();
+		usuarios.add(new Usuario("user1@gmail.com","user1.1234"));
+		usuarios.add(new Usuario("user2@gmail.com","user2.1234"));
+		usuarios.add(new Usuario("user3@gmail.com","user3.1234"));
+		usuarios.add(new Usuario("user4@gmail.com","user4.1234"));
+	}
+	
+	
+
+}

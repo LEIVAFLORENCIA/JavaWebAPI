@@ -1,0 +1,5 @@
+package com.educacionit.interfaces;
+
+public interface UtilidadesFecha {
+	String FECHA_SQL = "yyyy-MM-dd";
+}
