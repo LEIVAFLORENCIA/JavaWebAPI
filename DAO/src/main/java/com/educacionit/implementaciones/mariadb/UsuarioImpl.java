@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.educacionit.entidades.Usuario;
@@ -26,7 +28,11 @@ public class UsuarioImpl implements DAO<Usuario, String>, ConexionMariaDB {
 		String query = "select AES_DECRYPT(clave,?) as clave,fechaActualizacion,fechaCreacion from usuarios where correo=?"; //no traigo el correo en el select porque ya lo trae el método, me ahorra perfomance en info grande
 		
 		try {
-			psBuscar = getConexion().prepareStatement(query);
+			
+			if(null == psBuscar) {
+				psBuscar = getConexion().prepareStatement(query);
+			}
+			
 			psBuscar.setString(1, KEY); //Posición 1 porque es SQL, no programación
 			psBuscar.setString(2, correo);
 			
@@ -39,39 +45,111 @@ public class UsuarioImpl implements DAO<Usuario, String>, ConexionMariaDB {
 				usuario.setFechaCreacion(UtilidadesFecha.getStringAFecha(resultado.getString("fechaCreacion")));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+	
 		return usuario;
 	}
 
 	@Override
-	public Boolean insertar(Usuario e) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Boolean eliminar(Usuario e) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Boolean actualizar(Usuario e) {
-		// TODO Auto-generated method stub
-		return null;
+	public Boolean eliminar(Usuario usuario) {
+		String query = "delete from usuarios where correo = ?";
+		try {
+			if (null == psEliminar) {
+				psEliminar = getConexion().prepareStatement(query);
+			}
+			
+			psEliminar.setString(1, usuario.getCorreo());
+			
+			return psEliminar.executeUpdate() == 1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 
 	@Override
 	public List<Usuario> listar() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Usuario> listaUsuarios = new ArrayList<Usuario>();
+		String query = "select correo, AES_DECRYPT(clave,?) as clave,fechaActualizacion,fechaCreacion from usuarios";
+		
+		try {
+			if (null == psListar) {
+				psListar = getConexion().prepareStatement(query);
+			}
+			psListar.setString(1, query);
+			ResultSet resultado = psListar.executeQuery();
+			
+			while(resultado.next()) {
+				Usuario usuario = new Usuario();
+				usuario.setCorreo(resultado.getString("correo"));
+				usuario.setClave(resultado.getString("clave"));
+				usuario.setFechaCreacion(UtilidadesFecha.getStringAFecha(resultado.getString("fechaCreacion")));
+			
+				listaUsuarios.add(usuario);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return listaUsuarios;
 	}
 
+	@Override
+	public Boolean guardar(Usuario usuario) {
+		Usuario aux = buscar(usuario.getCorreo());
+		
+		if (null == aux) {
+			return insertar(usuario);
+		} else {
+			return actualizar(usuario);
+		}
+	}
+	
+	
+	private Boolean insertar(Usuario usuario) {
+		String query = "insert into usuarios (correo,clave,fechaActualizacion,fechaCreacion) values (?,AES_ENCRYPT(?,?),?,?)";
+		try {
+			
+			if(null == psInsertar) {
+				psInsertar = getConexion().prepareStatement(query);
+			}
+			psInsertar.setString(1, usuario.getCorreo());
+			psInsertar.setString(2, usuario.getClave());
+			psInsertar.setString(3, KEY);
+			psInsertar.setString(4, UtilidadesFecha.getFechaAString(new Date()));
+			psInsertar.setString(5, UtilidadesFecha.getFechaAString(new Date()));
+			
+			return psInsertar.executeUpdate() == 1;
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		return false;
+	}
+
+	private Boolean actualizar(Usuario usuario) {
+		String query = "update usuarios set clave = AES_ENCRYPT(?,?) where correo = ?";
+		try {
+			if (null == psActualizar) {
+				psActualizar= getConexion().prepareStatement(query);
+			}
+			psActualizar.setString(1, usuario.getClave());
+			psActualizar.setString(2, KEY);
+			psActualizar.setString(3, usuario.getCorreo());
+			
+			return psActualizar.executeUpdate() == 1;
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }
+
