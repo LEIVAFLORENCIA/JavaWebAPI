@@ -80,7 +80,7 @@ public class UsuarioImpl implements DAO<Usuario, String>, ConexionMariaDB {
 			if (null == psListar) {
 				psListar = getConexion().prepareStatement(query);
 			}
-			psListar.setString(1, query);
+			psListar.setString(1, KEY);
 			ResultSet resultado = psListar.executeQuery();
 			
 			while(resultado.next()) {
