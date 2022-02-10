@@ -5,3 +5,11 @@ ene. 22, 2022 16:46:33.804 [6560:4680:0122/164633.798:ERROR:chrome_browser_main_
 ene. 22, 2022 16:46:33.804 [6560:4680:0122/164633.798:ERROR:chrome_browser_main_extra_parts_metrics.cc(235)] START: GetDefaultBrowser(). If you don't see the END: message, this is crbug.com/1216328.
 ene. 22, 2022 16:46:33.804 [6560:4680:0122/164633.800:ERROR:chrome_browser_main_extra_parts_metrics.cc(239)] END: GetDefaultBrowser()
 ene. 22, 2022 16:46:34.226 [6560:4628:0122/164634.224:ERROR:device_event_log_impl.cc(214)] [16:46:34.224] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.
+
+feb. 10, 2022 20:01:36.999 NEW SESSION
+feb. 10, 2022 20:01:37.00 [7080:2088:0210/200136.983:ERROR:network_service_instance_impl.cc(975)] Network service crashed, restarting service.
+feb. 10, 2022 20:01:37.572 [7080:6244:0210/200137.571:ERROR:chrome_browser_main_extra_parts_metrics.cc(227)] START: ReportBluetoothAvailability(). If you don't see the END: message, this is crbug.com/1216328.
+feb. 10, 2022 20:01:37.647 [7080:6244:0210/200137.646:ERROR:chrome_browser_main_extra_parts_metrics.cc(230)] END: ReportBluetoothAvailability()
+feb. 10, 2022 20:01:37.648 [7080:6244:0210/200137.646:ERROR:chrome_browser_main_extra_parts_metrics.cc(235)] START: GetDefaultBrowser(). If you don't see the END: message, this is crbug.com/1216328.
+feb. 10, 2022 20:01:37.649 [7080:6244:0210/200137.648:ERROR:chrome_browser_main_extra_parts_metrics.cc(239)] END: GetDefaultBrowser()
+feb. 10, 2022 20:01:39.238 [7080:2088:0210/200139.237:ERROR:device_event_log_impl.cc(214)] [20:01:39.237] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.
